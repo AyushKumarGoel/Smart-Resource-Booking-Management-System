@@ -1,9 +1,8 @@
 package controller;
 
 import entity.*;
-import services.*;
-
 import java.util.List;
+import services.*;
 
 public class UserController {
     private UserService userService;
@@ -12,9 +11,9 @@ public class UserController {
         this.userService = service;
     }
 
-    public void registerUser(User user) {
-        userService.registerUser(user);
-        System.out.println("User Registered: " + user.getName());
+    public boolean registerUser(User user) {
+        return userService.registerUser(user);
+
     }
 
     public User login(String email, String password) {

@@ -1,8 +1,8 @@
 package services;
 
 import entity.*;
-import repository.*;
 import java.util.*;
+import repository.*;
 
 public class UserService {
     private UserRepository userRepository;
@@ -11,12 +11,11 @@ public class UserService {
         this.userRepository = repo;
     }
 
-    public void registerUser(User user) {
+    public boolean registerUser(User user) {
         if (isEmailTaken(user.getEmail())) {
-            System.out.println("Email already in use.");
-            return;
+            return false;
         }
-        userRepository.addUser(user);
+        else{userRepository.addUser(user);    return true;}
     }
 
     private boolean isEmailTaken(String email) {
