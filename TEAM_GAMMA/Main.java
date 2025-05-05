@@ -37,8 +37,9 @@ public class Main {
                 if (user instanceof Admin) {
                     System.out.println("1. Register User");
                     System.out.println("2. Generate Report");
-                    System.out.println("3. Switch Role");
-                    System.out.println("4. Exit");
+                    System.out.println("3. View All Users");
+                    System.out.println("4. Switch Role");
+                    System.out.println("5. Exit");
                     int choice = scanner.nextInt();
                     scanner.nextLine();
 
@@ -69,7 +70,10 @@ public class Main {
                     }
                     else if (choice == 2) {
                         reportController.generateReport();
-                    } else if (choice == 3) {
+                    }else if(choice ==3){
+                        userController.viewAllUsers();
+                    }
+                     else if (choice == 4) {
                         break; // to outer loop for login
                     } else {
                         System.exit(0);
