@@ -14,7 +14,7 @@ public class BookingController {
     }
 
     public void bookResource(String bookingId, String userId, String resourceId, Date start, Date end, double costPerHour) {
-        double hours = (end.getTime() - start.getTime()) / (1000.0 * 60 * 60);
+        double hours = (end.getTime() - start.getTime());
         double cost = calculator.calculateCost(hours, costPerHour);
         Booking b = new Booking(bookingId, userId, resourceId, start, end, cost);
         bookingService.addBooking(b);

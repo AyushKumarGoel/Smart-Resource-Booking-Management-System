@@ -163,13 +163,13 @@ public class Main {
 
                         long startMs, endMs;
                         try {
-                            System.out.print("Start Time (ms): ");
+                            System.out.print("Start Time (hrs): ");
                             startMs = scanner.nextLong();
-                            System.out.print("End Time (ms): ");
+                            System.out.print("End Time (hrs): ");
                             endMs = scanner.nextLong();
                             scanner.nextLine();
                         } catch (InputMismatchException e) {
-                            System.out.println("Invalid input. Please enter time in milliseconds.");
+                            System.out.println("Invalid input. Please enter time in hours.");
                             scanner.nextLine();
                             continue;
                         }
