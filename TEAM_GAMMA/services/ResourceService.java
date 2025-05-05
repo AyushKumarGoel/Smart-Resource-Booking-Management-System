@@ -1,13 +1,30 @@
 package services;
 
-import entity.*;
-import repository.*;
-import java.util.*;
+import entity.Resource;
+import java.util.List;
+import java.util.stream.Collectors;
+import repository.ResourceRepository;
 
 public class ResourceService {
-    private ResourceRepository repo;
+    private final ResourceRepository resourceRepository;
 
-    public ResourceService(ResourceRepository repo) { this.repo = repo; }
-    public void addResource(Resource r) { repo.addResource(r); }
-    public List<Resource> getResources() { return repo.getAllResources(); }
+    public ResourceService(ResourceRepository resourceRepository) {
+        this.resourceRepository = resourceRepository;
+    }
+
+    public void addResource(Resource resource) {
+        resourceRepository.addResource(resource);
+    }
+
+    // ✅ Add this method
+    public List<Resource> getAllResources() {
+        return resourceRepository.getAllResources();
+    }
+
+    // ✅ Optional: To support filtering by user
+    public List<Resource> getResourcesByUserId(String userId) {
+        return resourceRepository.getAllResources().stream()
+                .filter(r -> userId.equals(r.getAddedByUserId()))
+                .collect(Collectors.toList());
+    }
 }

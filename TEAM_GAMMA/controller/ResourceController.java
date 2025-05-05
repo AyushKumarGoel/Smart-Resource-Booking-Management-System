@@ -1,21 +1,41 @@
 package controller;
 
-import services.*; 
-import entity.*;
+import entity.Resource;
+import services.ResourceService;
+import java.util.List;
 
 public class ResourceController {
-    private ResourceService service;
+    private final ResourceService resourceService; // ✅ Add this line
 
-    public ResourceController(ResourceService service) { this.service = service; }
+    public ResourceController(ResourceService resourceService) {
+        this.resourceService = resourceService; // ✅ Initialize it in constructor
+    }
 
     public void addResource(Resource resource) {
-        service.addResource(resource);
-        System.out.println("Resource Added: " + resource.getName());
+        resourceService.addResource(resource);
     }
 
     public void viewResources() {
-        for (Resource r : service.getResources()) {
-            System.out.println("Resource ID: " + r.getId() + ", Name: " + r.getName());
+        List<Resource> resources = resourceService.getAllResources();
+        if (resources.isEmpty()) {
+            System.out.println("No resources found.");
+            return;
+        }
+        for (Resource res : resources) {
+            System.out.println("ID: " + res.getId() + ", Name: " + res.getName() +
+                    ", Type: " + res.getType() + ", Cost/hr: " + res.getCostPerHour());
+        }
+    }
+
+    public void viewResourcesByUser(String userId) { // ✅ Add this new method
+        List<Resource> userResources = resourceService.getResourcesByUserId(userId);
+        if (userResources.isEmpty()) {
+            System.out.println("No resources found.");
+            return;
+        }
+        for (Resource res : userResources) {
+            System.out.println("ID: " + res.getId() + ", Name: " + res.getName() +
+                    ", Type: " + res.getType() + ", Cost/hr: " + res.getCostPerHour());
         }
     }
 }

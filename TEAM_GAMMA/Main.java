@@ -2,9 +2,17 @@ import controller.*;
 import database.Database;
 import entity.*;
 import java.util.*;
+import java.util.regex.*; // <-- Added for email validation
 import services.*;
 
 public class Main {
+
+    public static boolean isValidEmail(String email) {
+        String emailRegex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
+        Pattern pattern = Pattern.compile(emailRegex);
+        return pattern.matcher(email).matches();
+    }
+
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
@@ -59,6 +67,12 @@ public class Main {
                         String name = scanner.nextLine();
                         System.out.print("Email: ");
                         String mail = scanner.nextLine();
+
+                        if (!isValidEmail(mail)) {
+                            System.out.println("Invalid email format. Please try again.");
+                            continue;
+                        }
+
                         System.out.print("Password: ");
                         String pass = scanner.nextLine();
 
@@ -84,7 +98,7 @@ public class Main {
                     } else if (choice == 3) {
                         userController.viewAllUsers();
                     } else if (choice == 4) {
-                        break; // switch role
+                        break;
                     } else if (choice == 5) {
                         System.exit(0);
                     } else {
@@ -126,10 +140,11 @@ public class Main {
                             continue;
                         }
 
-                        resourceController.addResource(new Resource(id, name, type, cost));
+                        resourceController.addResource(new Resource(id, name, type, cost, String.valueOf(user.getId())));
+
                         System.out.println("Resource added successfully.");
                     } else if (choice == 2) {
-                        resourceController.viewResources();
+                        resourceController.viewResourcesByUser(String.valueOf(user.getId()));
                     } else if (choice == 3) {
                         break;
                     } else if (choice == 4) {
