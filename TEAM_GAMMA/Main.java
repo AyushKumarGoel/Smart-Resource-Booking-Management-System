@@ -75,8 +75,11 @@ public class Main {
                     }
                      else if (choice == 4) {
                         break; // to outer loop for login
-                    } else {
+                    } else if (choice == 5) {
                         System.exit(0);
+                    }
+                    else {
+                        System.out.println("Invalid choice. Try again.");
                     }
 
                 } else if (user instanceof ResourceManager) {
@@ -104,8 +107,11 @@ public class Main {
                         resourceController.viewResources();
                     } else if (choice == 3) {
                         break;
-                    } else {
+                    }  else if (choice == 4) {
                         System.exit(0);
+                    }
+                    else {
+                        System.out.println("Invalid choice. Try again.");
                     }
 
                 } else if (user instanceof RegularUser) {
@@ -140,8 +146,11 @@ public class Main {
                         bookingController.viewBookings();
                     } else if (choice == 3) {
                         break;
-                    } else {
+                    }  else if (choice == 4) {
                         System.exit(0);
+                    }
+                    else {
+                        System.out.println("Invalid choice. Try again.");
                     }
                 }
             }
