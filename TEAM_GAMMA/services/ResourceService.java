@@ -16,12 +16,10 @@ public class ResourceService {
         resourceRepository.addResource(resource);
     }
 
-    // ✅ Add this method
     public List<Resource> getAllResources() {
         return resourceRepository.getAllResources();
     }
 
-    // ✅ Optional: To support filtering by user
     public List<Resource> getResourcesByUserId(String userId) {
         return resourceRepository.getAllResources().stream()
                 .filter(r -> userId.equals(r.getAddedByUserId()))

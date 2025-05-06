@@ -1,14 +1,14 @@
 package controller;
 
 import entity.Resource;
-import services.ResourceService;
 import java.util.List;
+import services.ResourceService;
 
 public class ResourceController {
-    private final ResourceService resourceService; // ✅ Add this line
+    private final ResourceService resourceService;
 
     public ResourceController(ResourceService resourceService) {
-        this.resourceService = resourceService; // ✅ Initialize it in constructor
+        this.resourceService = resourceService; 
     }
 
     public void addResource(Resource resource) {
@@ -27,7 +27,7 @@ public class ResourceController {
         }
     }
 
-    public void viewResourcesByUser(String userId) { // ✅ Add this new method
+    public void viewResourcesByUser(String userId) { 
         List<Resource> userResources = resourceService.getResourcesByUserId(userId);
         if (userResources.isEmpty()) {
             System.out.println("No resources found.");

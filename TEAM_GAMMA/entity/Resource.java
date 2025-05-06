@@ -5,7 +5,7 @@ public class Resource {
     private String name;
     private String type;
     private double costPerHour;
-    private String addedByUserId; // ✅ New field
+    private String addedByUserId; 
 
     public Resource(String id, String name, String type, double costPerHour, String addedByUserId) {
         this.id = id;

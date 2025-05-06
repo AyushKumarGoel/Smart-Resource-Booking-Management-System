@@ -1,8 +1,7 @@
 package controller;
 
 import entity.*;
-import java.util.Date;
-import services.*;  // <-- Add this import
+import services.*; 
 
 public class BookingController {
     private BookingService bookingService;
@@ -13,13 +12,30 @@ public class BookingController {
         this.calculator = calc;
     }
 
-    public void bookResource(String bookingId, String userId, String resourceId, Date start, Date end, double costPerHour) {
-        double hours = (end.getTime() - start.getTime());
+    public void bookResource(String bookingId, String userId, String resourceId, int start, int end, double costPerHour) {
+        // Validate start < end
+        if (start >= end) {
+            throw new IllegalArgumentException("Start time must be before end time.");
+        }
+    
+        // Check for existing bookings on the same resource
+        for (Booking existing : bookingService.getBookings()) {
+            if (existing.getResourceId().equals(resourceId)) {
+                // If existing booking overlaps
+                if (start < existing.getEndTime() && end > existing.getStartTime()) {
+                    throw new IllegalArgumentException("This resource is already booked during the selected time.");
+                }
+            }
+        }
+    
+        double hours = end - start;
         double cost = calculator.calculateCost(hours, costPerHour);
         Booking b = new Booking(bookingId, userId, resourceId, start, end, cost);
         bookingService.addBooking(b);
         System.out.println("Booking Confirmed with cost: " + cost);
     }
+    
+    
 
     public void viewBookings() {
         for (Booking b : bookingService.getBookings()) {

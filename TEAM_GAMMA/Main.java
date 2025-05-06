@@ -128,7 +128,7 @@ public class Main {
                         String name = scanner.nextLine();
                         System.out.print("Type: ");
                         String type = scanner.nextLine();
-
+                    
                         double cost;
                         try {
                             System.out.print("Cost/Hour: ");
@@ -139,11 +139,16 @@ public class Main {
                             scanner.nextLine();
                             continue;
                         }
-
-                        resourceController.addResource(new Resource(id, name, type, cost, String.valueOf(user.getId())));
-
-                        System.out.println("Resource added successfully.");
-                    } else if (choice == 2) {
+                    
+                        try {
+                            resourceController.addResource(new Resource(id, name, type, cost, user.getId()));
+                            System.out.println("Resource added successfully.");
+                        } catch (IllegalArgumentException e) {
+                            System.out.println(e.getMessage());  // This prints: Resource with this ID already exists.
+                        }
+                    }
+                    
+                    else if (choice == 2) {
                         resourceController.viewResourcesByUser(String.valueOf(user.getId()));
                     } else if (choice == 3) {
                         break;
@@ -193,8 +198,13 @@ public class Main {
                                 .filter(r -> r.getId().equals(rid)).findFirst().orElse(null);
 
                         if (res != null) {
-                            bookingController.bookResource(bid, String.valueOf(user.getId()), rid, new Date(startMs), new Date(endMs), res.getCostPerHour());
-                            System.out.println("Resource booked successfully.");
+                            try {
+                                bookingController.bookResource(bid, String.valueOf(user.getId()), rid, (int) startMs, (int) endMs, res.getCostPerHour());
+                                System.out.println("Resource booked successfully.");
+                            } catch (IllegalArgumentException e) {
+                                System.out.println(e.getMessage());  // Will print "Booking with this ID already exists."
+                            }
+                            
                         } else {
                             System.out.println("Resource not found.");
                         }
