@@ -127,7 +127,26 @@ public class Main {
                         System.out.print("Name: ");
                         String name = scanner.nextLine();
                         System.out.print("Type: ");
-                        String type = scanner.nextLine();
+                        System.out.println("");
+                        System.out.println("1. Room");
+                        System.out.println("2. Book");
+                        System.out.println("3. Equipments");
+                        int q=scanner.nextInt();
+                        String type;
+                        switch (q) {
+                            case 1:
+                                type="Room";
+                                break;
+                            case 2:
+                                type="Book";
+                                break;
+                            case 3:
+                                type="Equipments";
+                                break;
+                            default:
+                                System.err.println("Invalid type. Please try again.");
+                                continue;
+                        }
                     
                         double cost;
                         try {
