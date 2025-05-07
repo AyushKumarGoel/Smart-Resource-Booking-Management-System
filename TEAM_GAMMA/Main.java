@@ -244,7 +244,7 @@ public class Main {
                     System.out.println("1. Book Resource");
                     System.out.println("2. View Bookings");
                     System.out.println("3. View Resources");
-                    System.out.println("4. Delete Booking");
+                    System.out.println("4 Delete Booking");
                     System.out.println("5. Modify Booking");
                     System.out.println("6. Switch Role");
                     System.out.println("7. Exit");

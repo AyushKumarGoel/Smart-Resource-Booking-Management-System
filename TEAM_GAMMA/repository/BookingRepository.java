@@ -30,14 +30,13 @@ public class BookingRepository {
 
         bookings.add(newBooking);
     }
-
     public boolean deleteBooking(String bookingId) {
         return bookings.removeIf(b -> b.getBookingId().equals(bookingId));
     }
-
+    
     public boolean updateBooking(String bookingId, int newStart, int newEnd) {
         for (Booking b : bookings) {
-            if (b.getUserId().equals(bookingId)) {
+            if (b.getBookingId().equals(bookingId)) {
                 b.setStartTime(newStart);
                 b.setEndTime(newEnd);
                 return true;
@@ -45,6 +44,7 @@ public class BookingRepository {
         }
         return false;
     }
+    
 
     public List<Booking> getAllBookings() {
         return bookings;
