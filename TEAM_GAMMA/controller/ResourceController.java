@@ -8,15 +8,16 @@ public class ResourceController {
     private final ResourceService resourceService;
 
     public ResourceController(ResourceService resourceService) {
-        this.resourceService = resourceService; 
+        this.resourceService = resourceService;
     }
 
     public void addResource(Resource resource) {
         resourceService.addResource(resource);
     }
 
+    // Modify this method to handle the List<Resource> returned from viewResources()
     public void viewResources() {
-        List<Resource> resources = resourceService.getAllResources();
+        List<Resource> resources = resourceService.viewResources();
         if (resources.isEmpty()) {
             System.out.println("No resources found.");
             return;
@@ -27,8 +28,9 @@ public class ResourceController {
         }
     }
 
-    public void viewResourcesByUser(String userId) { 
-        List<Resource> userResources = resourceService.getResourcesByUserId(userId);
+    // Modify this method to handle the List<Resource> returned from viewResourcesByUser()
+    public void viewResourcesByUser(String userId) {
+        List<Resource> userResources = resourceService.viewResourcesByUser(userId);
         if (userResources.isEmpty()) {
             System.out.println("No resources found.");
             return;

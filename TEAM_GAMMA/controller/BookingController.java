@@ -1,23 +1,24 @@
 package controller;
 
 import entity.*;
-import services.*; 
+import services.*;
 
 public class BookingController {
     private BookingService bookingService;
     private CalculatorService calculator;
+    private int bookingCounter = 1; // Auto-increment counter for booking IDs
 
     public BookingController(BookingService service, CalculatorService calc) {
         this.bookingService = service;
         this.calculator = calc;
     }
 
-    public void bookResource(String bookingId, String userId, String resourceId, int start, int end, double costPerHour) {
+    public void bookResource(String userId, String resourceId, int start, int end, double costPerHour) {
         // Validate start < end
         if (start >= end) {
             throw new IllegalArgumentException("Start time must be before end time.");
         }
-    
+
         // Check for existing bookings on the same resource
         for (Booking existing : bookingService.getBookings()) {
             if (existing.getResourceId().equals(resourceId)) {
@@ -27,15 +28,15 @@ public class BookingController {
                 }
             }
         }
-    
+
         double hours = end - start;
         double cost = calculator.calculateCost(hours, costPerHour);
+        String bookingId = String.format("B%03d", bookingCounter++); // Auto-generated ID like B001, B002, etc.
+
         Booking b = new Booking(bookingId, userId, resourceId, start, end, cost);
         bookingService.addBooking(b);
-        System.out.println("Booking Confirmed with cost: " + cost);
+        System.out.println("Booking Confirmed with ID: " + bookingId + " and cost: " + cost);
     }
-    
-    
 
     public void viewBookings() {
         for (Booking b : bookingService.getBookings()) {
@@ -56,5 +57,4 @@ public class BookingController {
             System.out.println("You have no bookings.");
         }
     }
-    
 }

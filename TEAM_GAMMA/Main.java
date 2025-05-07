@@ -13,6 +13,12 @@ public class Main {
         return pattern.matcher(email).matches();
     }
 
+    public static boolean isValidName(String name) {
+        String nameRegex = "^[A-Za-z][A-Za-z0-9]*$"; // Name should not start with a digit and must contain characters
+        Pattern pattern = Pattern.compile(nameRegex);
+        return pattern.matcher(name).matches();
+    }
+
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
@@ -65,6 +71,12 @@ public class Main {
 
                         System.out.print("Name: ");
                         String name = scanner.nextLine();
+
+                        if (!isValidName(name)) {
+                            System.out.println("Invalid name. It must start with a letter and contain only letters and digits.");
+                            continue;
+                        }
+
                         System.out.print("Email: ");
                         String mail = scanner.nextLine();
 
@@ -100,6 +112,8 @@ public class Main {
                     } else if (choice == 4) {
                         break;
                     } else if (choice == 5) {
+                        System.out.println("TATA BYE BYE");
+                        System.out.println("Exiting the application...");
                         System.exit(0);
                     } else {
                         System.out.println("Invalid choice. Try again.");
@@ -122,8 +136,6 @@ public class Main {
                     }
 
                     if (choice == 1) {
-                        System.out.print("ID: ");
-                        String id = scanner.nextLine();
                         System.out.print("Name: ");
                         String name = scanner.nextLine();
                         System.out.print("Type: ");
@@ -131,23 +143,23 @@ public class Main {
                         System.out.println("1. Room");
                         System.out.println("2. Book");
                         System.out.println("3. Equipments");
-                        int q=scanner.nextInt();
+                        int q = scanner.nextInt();
                         String type;
                         switch (q) {
                             case 1:
-                                type="Room";
+                                type = "Room";
                                 break;
                             case 2:
-                                type="Book";
+                                type = "Book";
                                 break;
                             case 3:
-                                type="Equipments";
+                                type = "Equipments";
                                 break;
                             default:
                                 System.err.println("Invalid type. Please try again.");
                                 continue;
                         }
-                    
+
                         double cost;
                         try {
                             System.out.print("Cost/Hour: ");
@@ -158,20 +170,22 @@ public class Main {
                             scanner.nextLine();
                             continue;
                         }
-                    
+
                         try {
-                            resourceController.addResource(new Resource(id, name, type, cost, user.getId()));
+                            resourceController.addResource(new Resource(name, type, cost, user.getId()));
                             System.out.println("Resource added successfully.");
                         } catch (IllegalArgumentException e) {
                             System.out.println(e.getMessage());  // This prints: Resource with this ID already exists.
                         }
                     }
-                    
+
                     else if (choice == 2) {
                         resourceController.viewResourcesByUser(String.valueOf(user.getId()));
                     } else if (choice == 3) {
                         break;
                     } else if (choice == 4) {
+                        System.out.println("TATA BYE BYE");
+                        System.out.println("Exiting the application...");
                         System.exit(0);
                     } else {
                         System.out.println("Invalid choice. Try again.");
@@ -195,8 +209,6 @@ public class Main {
                     }
 
                     if (choice == 1) {
-                        System.out.print("Booking ID: ");
-                        String bid = scanner.nextLine();
                         System.out.print("Resource ID: ");
                         String rid = scanner.nextLine();
 
@@ -218,7 +230,7 @@ public class Main {
 
                         if (res != null) {
                             try {
-                                bookingController.bookResource(bid, String.valueOf(user.getId()), rid, (int) startMs, (int) endMs, res.getCostPerHour());
+                                bookingController.bookResource(String.valueOf(user.getId()), rid, (int) startMs, (int) endMs, res.getCostPerHour());
                                 System.out.println("Resource booked successfully.");
                             } catch (IllegalArgumentException e) {
                                 System.out.println(e.getMessage());  // Will print "Booking with this ID already exists."
@@ -234,6 +246,8 @@ public class Main {
                     } else if (choice == 4) {
                         resourceController.viewResources();
                     } else if (choice == 5) {
+                        System.out.println("TATA BYE BYE");
+                        System.out.println("Exiting the application...");
                         System.exit(0);
                     } else {
                         System.out.println("Invalid choice. Try again.");
