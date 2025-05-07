@@ -42,4 +42,19 @@ public class BookingController {
             System.out.println("Booking ID: " + b.getBookingId() + ", User ID: " + b.getUserId());
         }
     }
+
+    public void viewBookingsByUser(String userId) {
+        boolean found = false;
+        for (Booking b : bookingService.getBookings()) {
+            if (b.getUserId().equals(userId)) {
+                found = true;
+                System.out.println("Booking ID: " + b.getBookingId() + ", Resource ID: " + b.getResourceId() +
+                        ", Start: " + b.getStartTime() + ", End: " + b.getEndTime() + ", Cost: " + b.getCost());
+            }
+        }
+        if (!found) {
+            System.out.println("You have no bookings.");
+        }
+    }
+    
 }

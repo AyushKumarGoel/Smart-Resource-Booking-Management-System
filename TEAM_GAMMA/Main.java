@@ -228,7 +228,7 @@ public class Main {
                             System.out.println("Resource not found.");
                         }
                     } else if (choice == 2) {
-                        bookingController.viewBookings();
+                        bookingController.viewBookingsByUser(String.valueOf(user.getId()));
                     } else if (choice == 3) {
                         break;
                     } else if (choice == 4) {
