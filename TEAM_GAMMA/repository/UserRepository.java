@@ -26,4 +26,19 @@ public class UserRepository {
         }
         return null;
     }
+    public boolean deleteUserByEmail(String email) {
+        return users.removeIf(user -> user.getEmail().equalsIgnoreCase(email));
+    }
+    
+    public boolean updateUserDetails(String email, String newName, String newPassword) {
+        for (User user : users) {
+            if (user.getEmail().equalsIgnoreCase(email)) {
+                user.setName(newName);
+                user.setPassword(newPassword);
+                return true;
+            }
+        }
+        return false;
+    }
+    
 }

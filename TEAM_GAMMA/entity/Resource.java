@@ -42,4 +42,21 @@ public class Resource {
     public String getManagerId() {
         return managerId;
     }
+
+
+    // Add these setter methods below the getters
+    public void setName(String name) {
+        if (name.matches("^\\d+$") || name.matches("^\\d.*")) {
+            throw new IllegalArgumentException("Invalid resource name: must contain alphabet and cannot start with a digit.");
+        }
+        this.name = name;
+    }
+
+    public void setCostPerHour(double costPerHour) {
+        if (costPerHour < 0) {
+            throw new IllegalArgumentException("Invalid cost: must be non-negative.");
+        }
+        this.costPerHour = costPerHour;
+    }
+
 }

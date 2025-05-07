@@ -27,4 +27,12 @@ public class ResourceService {
                 .filter(r -> r.getManagerId().equals(managerId)) // Filter by managerId
                 .collect(Collectors.toList()); // Return filtered list
     }
+    public boolean deleteResource(String id) {
+        return resourceRepository.deleteResourceById(id);
+    }
+    
+    public boolean updateResource(String id, String newName, double newCost) {
+        return resourceRepository.updateResource(id, newName, newCost);
+    }
+    
 }

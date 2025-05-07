@@ -57,4 +57,12 @@ public class BookingController {
             System.out.println("You have no bookings.");
         }
     }
+    public boolean deleteBooking(String bookingId) {
+        return bookingService.deleteBooking(bookingId);
+    }
+    
+    public boolean updateBooking(String bookingId, int start, int end) {
+        return bookingService.updateBooking(bookingId, start, end);
+    }
+    
 }

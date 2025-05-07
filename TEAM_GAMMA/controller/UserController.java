@@ -37,4 +37,12 @@ public class UserController {
             }
         }
     }
+    public boolean deleteUser(String email) {
+        return userService.deleteUser(email);
+    }
+    
+    public boolean updateUser(String email, String newName, String newPassword) {
+        return userService.updateUser(email, newName, newPassword);
+    }
+    
 }

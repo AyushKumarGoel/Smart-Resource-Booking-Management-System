@@ -40,4 +40,12 @@ public class ResourceController {
                     ", Type: " + res.getType() + ", Cost/hr: " + res.getCostPerHour());
         }
     }
+    public boolean deleteResource(String id) {
+        return resourceService.deleteResource(id);
+    }
+    
+    public boolean updateResource(String id, String name, double cost) {
+        return resourceService.updateResource(id, name, cost);
+    }
+    
 }

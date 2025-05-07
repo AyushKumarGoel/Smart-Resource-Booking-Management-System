@@ -33,4 +33,12 @@ public class UserService {
     public User getUserById(String id) {
         return userRepository.getUserById(id);
     }
+    public boolean deleteUser(String email) {
+        return userRepository.deleteUserByEmail(email);
+    }
+    
+    public boolean updateUser(String email, String newName, String newPassword) {
+        return userRepository.updateUserDetails(email, newName, newPassword);
+    }
+    
 }

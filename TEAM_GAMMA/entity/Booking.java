@@ -23,4 +23,17 @@ public class Booking {
     public int getStartTime() { return startTime; }
     public int getEndTime() { return endTime; }
     public double getCost() { return cost; }
+
+    public void setStartTime(int startTime) {
+        this.startTime = startTime;
+    }
+    
+    public void setEndTime(int endTime) {
+        this.endTime = endTime;
+    }
+    
+    public void setCost(double cost) {
+        this.cost = cost;
+    }
+    
 }

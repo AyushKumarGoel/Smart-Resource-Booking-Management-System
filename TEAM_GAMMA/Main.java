@@ -53,7 +53,9 @@ public class Main {
                     System.out.println("2. Generate Report");
                     System.out.println("3. View All Users");
                     System.out.println("4. Switch Role");
-                    System.out.println("5. Exit");
+                    System.out.println("5. Delete User");
+                    System.out.println("6. Modify User");
+                    System.out.println("7. Exit");
 
                     int choice;
                     try {
@@ -111,7 +113,30 @@ public class Main {
                         userController.viewAllUsers();
                     } else if (choice == 4) {
                         break;
-                    } else if (choice == 5) {
+                    } 
+                    else if (choice == 5) {
+                        System.out.print("Enter email to delete user: ");
+                        String emailToDelete = scanner.nextLine();
+                        if (userController.deleteUser(emailToDelete)) {
+                            System.out.println("User deleted successfully.");
+                        } else {
+                            System.out.println("User not found.");
+                        }
+                    }
+                    else if (choice == 6) {
+                        System.out.print("Enter email of the user to modify: ");
+                        String e = scanner.nextLine();
+                        System.out.print("New Name: ");
+                        String newName = scanner.nextLine();
+                        System.out.print("New Password: ");
+                        String newPassword = scanner.nextLine();
+                        if (userController.updateUser(e, newName, newPassword)) {
+                            System.out.println("User updated successfully.");
+                        } else {
+                            System.out.println("User not found.");
+                        }
+                    }
+                    else if (choice == 7) {
                         System.out.println("TATA BYE BYE");
                         System.out.println("Exiting the application...");
                         System.exit(0);
@@ -123,7 +148,10 @@ public class Main {
                     System.out.println("1. Add Resource");
                     System.out.println("2. View Resources");
                     System.out.println("3. Switch Role");
-                    System.out.println("4. Exit");
+                    System.out.println("3. Delete Resource");
+                    System.out.println("4. Modify Resource");
+                    System.out.println("5. Switch Role");
+                    System.out.println("6. Exit");
 
                     int choice;
                     try {
@@ -181,9 +209,31 @@ public class Main {
 
                     else if (choice == 2) {
                         resourceController.viewResourcesByUser(String.valueOf(user.getId()));
-                    } else if (choice == 3) {
+                    } 
+                    else if (choice == 3) {
+                        System.out.print("Enter Resource ID to delete: ");
+                        String resId = scanner.nextLine();
+                        if (resourceController.deleteResource(resId)) {
+                            System.out.println("Resource deleted successfully.");
+                        } else {
+                            System.out.println("Resource not found.");
+                        }
+                    }
+                    else if (choice == 4) {
+                        System.out.print("Enter Resource ID to modify: ");
+                        String resId = scanner.nextLine();
+                        System.out.print("New Name: ");
+                        String newName = scanner.nextLine();
+                        System.out.print("New Cost per Hour: ");
+                        double newCost = scanner.nextDouble(); scanner.nextLine();
+                        if (resourceController.updateResource(resId, newName, newCost)) {
+                            System.out.println("Resource updated successfully.");
+                        } else {
+                            System.out.println("Resource not found.");
+                        }
+                    }else if (choice == 5) {
                         break;
-                    } else if (choice == 4) {
+                    } else if (choice == 6) {
                         System.out.println("TATA BYE BYE");
                         System.out.println("Exiting the application...");
                         System.exit(0);
@@ -196,7 +246,9 @@ public class Main {
                     System.out.println("2. View Bookings");
                     System.out.println("3. Switch Role");
                     System.out.println("4. View Resources");
-                    System.out.println("5. Exit");
+                    System.out.println("5. Delete Booking");
+                    System.out.println("6. Modify Booking");
+                    System.out.println("7. Exit");
 
                     int choice;
                     try {
@@ -245,7 +297,31 @@ public class Main {
                         break;
                     } else if (choice == 4) {
                         resourceController.viewResources();
-                    } else if (choice == 5) {
+                    }
+                    else if (choice == 5) {
+                        System.out.print("Enter Booking ID to delete: ");
+                        String bid = scanner.nextLine();
+                        if (bookingController.deleteBooking(bid)) {
+                            System.out.println("Booking deleted successfully.");
+                        } else {
+                            System.out.println("Booking not found.");
+                        }
+                    }
+                    else if (choice == 6) {
+                        System.out.print("Enter Booking ID to update: ");
+                        String bid = scanner.nextLine();
+                        System.out.print("New Start Time (hrs): ");
+                        int newStart = scanner.nextInt();
+                        System.out.print("New End Time (hrs): ");
+                        int newEnd = scanner.nextInt();
+                        scanner.nextLine();
+                        if (bookingController.updateBooking(bid, newStart, newEnd)) {
+                            System.out.println("Booking updated successfully.");
+                        } else {
+                            System.out.println("Booking not found.");
+                        }
+                    } 
+                    else if (choice == 7) {
                         System.out.println("TATA BYE BYE");
                         System.out.println("Exiting the application...");
                         System.exit(0);
