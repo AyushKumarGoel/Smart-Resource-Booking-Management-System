@@ -52,9 +52,9 @@ public class Main {
                     System.out.println("1. Register User");
                     System.out.println("2. Generate Report");
                     System.out.println("3. View All Users");
-                    System.out.println("4. Switch Role");
-                    System.out.println("5. Delete User");
-                    System.out.println("6. Modify User");
+                    System.out.println("4. Delete User");
+                    System.out.println("5. Modify User");
+                    System.out.println("6. Switch Role");
                     System.out.println("7. Exit");
 
                     int choice;
@@ -111,10 +111,10 @@ public class Main {
                         reportController.generateReport();
                     } else if (choice == 3) {
                         userController.viewAllUsers();
-                    } else if (choice == 4) {
+                    } else if (choice == 6) {
                         break;
                     } 
-                    else if (choice == 5) {
+                    else if (choice == 4) {
                         System.out.print("Enter email to delete user: ");
                         String emailToDelete = scanner.nextLine();
                         if (userController.deleteUser(emailToDelete)) {
@@ -123,7 +123,7 @@ public class Main {
                             System.out.println("User not found.");
                         }
                     }
-                    else if (choice == 6) {
+                    else if (choice == 5) {
                         System.out.print("Enter email of the user to modify: ");
                         String e = scanner.nextLine();
                         System.out.print("New Name: ");
@@ -147,7 +147,6 @@ public class Main {
                 } else if (user instanceof ResourceManager) {
                     System.out.println("1. Add Resource");
                     System.out.println("2. View Resources");
-                    System.out.println("3. Switch Role");
                     System.out.println("3. Delete Resource");
                     System.out.println("4. Modify Resource");
                     System.out.println("5. Switch Role");
@@ -244,10 +243,10 @@ public class Main {
                 } else if (user instanceof RegularUser) {
                     System.out.println("1. Book Resource");
                     System.out.println("2. View Bookings");
-                    System.out.println("3. Switch Role");
-                    System.out.println("4. View Resources");
-                    System.out.println("5. Delete Booking");
-                    System.out.println("6. Modify Booking");
+                    System.out.println("3. View Resources");
+                    System.out.println("4 Delete Booking");
+                    System.out.println("5. Modify Booking");
+                    System.out.println("6. Switch Role");
                     System.out.println("7. Exit");
 
                     int choice;
@@ -293,12 +292,12 @@ public class Main {
                         }
                     } else if (choice == 2) {
                         bookingController.viewBookingsByUser(String.valueOf(user.getId()));
-                    } else if (choice == 3) {
+                    } else if (choice == 6) {
                         break;
-                    } else if (choice == 4) {
+                    } else if (choice == 3) {
                         resourceController.viewResources();
                     }
-                    else if (choice == 5) {
+                    else if (choice == 4) {
                         System.out.print("Enter Booking ID to delete: ");
                         String bid = scanner.nextLine();
                         if (bookingController.deleteBooking(bid)) {
@@ -307,7 +306,7 @@ public class Main {
                             System.out.println("Booking not found.");
                         }
                     }
-                    else if (choice == 6) {
+                    else if (choice == 5) {
                         System.out.print("Enter Booking ID to update: ");
                         String bid = scanner.nextLine();
                         System.out.print("New Start Time (hrs): ");
