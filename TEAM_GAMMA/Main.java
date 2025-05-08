@@ -1,6 +1,10 @@
 import controller.*;
 import database.Database;
 import entity.*;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.*;
 import java.util.regex.*; // <-- Added for email validation
 import services.*;
@@ -25,11 +29,7 @@ public class Main {
         UserService userService = new UserService(Database.userRepository);
         UserController userController = new UserController(userService);
         ResourceController resourceController = new ResourceController(new ResourceService(Database.resourceRepository));
-        BookingController bookingController = new BookingController(
-            new BookingService(Database.bookingRepository),
-            new CalculatorService(),
-            Database.userRepository
-        );
+        BookingController bookingController = new BookingController(new BookingService(Database.bookingRepository), new CalculatorService());
         ReportController reportController = new ReportController(new ReportService(Database.bookingRepository, Database.userRepository));
 
         // Dummy users
@@ -263,19 +263,24 @@ public class Main {
                         continue;
                     }
 
-                    if (choice == 1) {
+                   if (choice == 1) {
                         System.out.print("Resource ID: ");
                         String rid = scanner.nextLine();
 
                         long startMs, endMs;
+                        LocalDateTime startDateTime = null, endDateTime = null;
                         try {
-                            System.out.print("Start Time (hrs): ");
-                            startMs = scanner.nextLong();
-                            System.out.print("End Time (hrs): ");
-                            endMs = scanner.nextLong();
-                            scanner.nextLine();
-                        } catch (InputMismatchException e) {
-                            System.out.println("Invalid input. Please enter time in hours.");
+                            System.out.print("Start Time (yyyy-MM-dd HH:mm): ");
+                            String startInput = scanner.nextLine();
+                            System.out.print("End Time (yyyy-MM-dd HH:mm): ");
+                            String endInput = scanner.nextLine();
+
+                            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+                            startDateTime = LocalDateTime.parse(startInput, formatter);
+                            endDateTime = LocalDateTime.parse(endInput, formatter);
+
+                        } catch (InputMismatchException | DateTimeParseException e) {
+                            System.out.println("Invalid input. Please enter time in the correct format.");
                             scanner.nextLine();
                             continue;
                         }
@@ -284,16 +289,26 @@ public class Main {
                                 .filter(r -> r.getId().equals(rid)).findFirst().orElse(null);
 
                         if (res != null) {
-                            try {
-                                bookingController.bookResource(String.valueOf(user.getId()), rid, (int) startMs, (int) endMs, res.getCostPerHour());
-                                System.out.println("Resource booked successfully.");
-                            } catch (IllegalArgumentException e) {
-                                System.out.println(e.getMessage());  // Will print "Booking with this ID already exists."
-                            }
-                            
-                        } else {
-                            System.out.println("Resource not found.");
+                        try {
+                        // Convert LocalDateTime to milliseconds
+                        startMs = startDateTime.atZone(java.time.ZoneId.systemDefault()).toInstant().toEpochMilli();
+                        endMs = endDateTime.atZone(java.time.ZoneId.systemDefault()).toInstant().toEpochMilli();
+
+                        // Ensure end time is after start time
+                        if (endMs <= startMs) {
+                        System.out.println("End time must be after start time. Please try again.");
+                        continue;
                         }
+
+                        bookingController.bookResource(String.valueOf(user.getId()), rid, startMs, endMs, res.getCostPerHour());
+                        System.out.println("Resource booked successfully.");
+                        } catch (IllegalArgumentException e) {
+                        System.out.println(e.getMessage());  // Will print "Booking with this ID already exists."
+                        }
+                        } else {
+                        System.out.println("Resource not found.");
+                        continue;
+                        } 
                     } else if (choice == 2) {
                         bookingController.viewBookingsByUser(String.valueOf(user.getId()));
                     } else if (choice == 6) {

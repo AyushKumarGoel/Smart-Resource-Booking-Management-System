@@ -7,18 +7,15 @@ public class Booking {
     private int startTime;
     private int endTime;
     private double cost;
-    private User user; 
 
-    public Booking(String bookingId, String userId, String resourceId, int startTime, int endTime, double cost, User user) {
+    public Booking(String bookingId, String userId, String resourceId, int startTime, int endTime, double cost) {
         this.bookingId = bookingId;
         this.userId = userId;
         this.resourceId = resourceId;
         this.startTime = startTime;
         this.endTime = endTime;
         this.cost = cost;
-        this.user = user;
     }
-    
 
     public String getBookingId() { return bookingId; }
     public String getUserId() { return userId; }
@@ -26,7 +23,6 @@ public class Booking {
     public int getStartTime() { return startTime; }
     public int getEndTime() { return endTime; }
     public double getCost() { return cost; }
-    public User getUserName() { return user; }
 
     public void setStartTime(int startTime) {
         this.startTime = startTime;

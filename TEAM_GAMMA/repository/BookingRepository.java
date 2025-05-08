@@ -37,20 +37,8 @@ public class BookingRepository {
     public boolean updateBooking(String bookingId, int newStart, int newEnd) {
         for (Booking b : bookings) {
             if (b.getBookingId().equals(bookingId)) {
-                // Validate the new start and end times
-                if (newEnd < newStart) {
-                    throw new IllegalArgumentException("End time cannot be earlier than start time.");
-                }
-                
-                // Update the start and end times
                 b.setStartTime(newStart);
                 b.setEndTime(newEnd);
-                
-                // Calculate new cost based on new duration
-                double hours = newEnd - newStart;
-                double costPerHour = b.getCost() / (b.getEndTime() - b.getStartTime()); // Cost per hour based on the original booking's duration
-                b.setCost(hours * costPerHour); // Set the new cost based on the new duration
-                
                 return true;
             }
         }
