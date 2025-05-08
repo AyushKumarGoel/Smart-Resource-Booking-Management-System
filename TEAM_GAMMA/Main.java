@@ -25,8 +25,12 @@ public class Main {
         UserService userService = new UserService(Database.userRepository);
         UserController userController = new UserController(userService);
         ResourceController resourceController = new ResourceController(new ResourceService(Database.resourceRepository));
-        BookingController bookingController = new BookingController(new BookingService(Database.bookingRepository), new CalculatorService());
-        ReportController reportController = new ReportController(new ReportService(Database.bookingRepository));
+        BookingController bookingController = new BookingController(
+            new BookingService(Database.bookingRepository),
+            new CalculatorService(),
+            Database.userRepository
+        );
+        ReportController reportController = new ReportController(new ReportService(Database.bookingRepository, Database.userRepository));
 
         // Dummy users
         userController.registerUser(new Admin("AdminUser", "admin@mail.com", "admin123"));

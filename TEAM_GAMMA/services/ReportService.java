@@ -1,18 +1,28 @@
 package services;
 
-import repository.BookingRepository;
-import entity.Booking;
+import entity.*;
+import repository.*;
 
 public class ReportService {
     private BookingRepository bookingRepo;
+    private UserRepository userRepo;
 
-    public ReportService(BookingRepository repo) {
-        this.bookingRepo = repo;
+    public ReportService(BookingRepository bookingRepo, UserRepository userRepo) {
+        this.bookingRepo = bookingRepo;
+        this.userRepo = userRepo;
     }
 
     public void generateReport() {
         for (Booking b : bookingRepo.getAllBookings()) {
-            System.out.println("Booking ID: " + b.getBookingId() + ", Resource ID: " + b.getResourceId() + ", Cost: " + b.getCost());
+            User user = userRepo.getUserById(b.getUserId());
+            System.out.println("Booking ID: " + b.getBookingId() +
+                ", Resource ID: " + b.getResourceId() +
+                ", Cost: " + b.getCost() +
+                ", User ID: " + b.getUserId() +
+                ", Name: " + user.getName() +
+                ", Start: " + b.getStartTime() +
+                ", End: " + b.getEndTime());
         }
     }
 }
+

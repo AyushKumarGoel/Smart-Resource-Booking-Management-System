@@ -1,16 +1,19 @@
 package controller;
 
 import entity.*;
+import repository.*;
 import services.*;
 
 public class BookingController {
     private BookingService bookingService;
     private CalculatorService calculator;
+    private UserRepository userRepo; // Assuming you have a UserRepository to fetch user details
     private int bookingCounter = 1; // Auto-increment counter for booking IDs
 
-    public BookingController(BookingService service, CalculatorService calc) {
+    public BookingController(BookingService service, CalculatorService calc, UserRepository userRepo) {
         this.bookingService = service;
         this.calculator = calc;
+        this.userRepo = userRepo;
     }
 
     public void bookResource(String userId, String resourceId, int start, int end, double costPerHour) {
@@ -33,7 +36,10 @@ public class BookingController {
         double cost = calculator.calculateCost(hours, costPerHour);
         String bookingId = String.format("B%03d", bookingCounter++); // Auto-generated ID like B001, B002, etc.
 
-        Booking b = new Booking(bookingId, userId, resourceId, start, end, cost);
+        User user = userRepo.getUserById(userId);
+
+        Booking b = new Booking(bookingId, userId, resourceId, start, end, cost, user);
+
         bookingService.addBooking(b);
         System.out.println("Booking Confirmed with ID: " + bookingId + " and cost: " + cost);
     }
