@@ -1,8 +1,8 @@
 import controller.*;
 import database.Database;
 import entity.*;
-
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.*;
@@ -328,16 +328,30 @@ public class Main {
                     else if (choice == 5) {
                         System.out.print("Enter Booking ID to update: ");
                         String bid = scanner.nextLine();
-                        System.out.print("New Start Time (hrs): ");
-                        int newStart = scanner.nextInt();
-                        System.out.print("New End Time (hrs): ");
-                        int newEnd = scanner.nextInt();
-                        scanner.nextLine();
-                        if (bookingController.updateBooking(bid, newStart, newEnd)) {
-                            System.out.println("Booking updated successfully.");
-                        } else {
-                            System.out.println("Booking not found.");
+
+                        System.out.print("New Start Time (yyyy-MM-dd HH:mm): ");
+                        String newStartTimeStr = scanner.nextLine();
+                        System.out.print("New End Time (yyyy-MM-dd HH:mm): ");
+                        String newEndTimeStr = scanner.nextLine();
+
+                        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+
+                        try {
+                            LocalDateTime newStartDateTime = LocalDateTime.parse(newStartTimeStr, formatter);
+                            LocalDateTime newEndDateTime = LocalDateTime.parse(newEndTimeStr, formatter);
+
+                            long newStartMs = newStartDateTime.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
+                            long newEndMs = newEndDateTime.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
+
+                            if (bookingController.updateBooking(bid, newStartMs, newEndMs)) {
+                                System.out.println("Booking updated successfully.");
+                            } else {
+                                System.out.println("Booking not found.");
+                            }
+                        } catch (DateTimeParseException e) {
+                            System.out.println("Invalid date format.");
                         }
+
                     } 
                     else if (choice == 7) {
                         System.out.println("TATA BYE BYE");

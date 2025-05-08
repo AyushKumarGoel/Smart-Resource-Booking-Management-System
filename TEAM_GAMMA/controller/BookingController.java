@@ -2,11 +2,15 @@ package controller;
 
 import entity.*;
 import services.*;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 
 public class BookingController {
     private BookingService bookingService;
     private CalculatorService calculator;
-    private int bookingCounter = 1; // Auto-increment counter for booking IDs
+    private int bookingCounter = 1;
 
     public BookingController(BookingService service, CalculatorService calc) {
         this.bookingService = service;
@@ -14,28 +18,26 @@ public class BookingController {
     }
 
     public void bookResource(String userId, String resourceId, long start, long end, double costPerHour) {
-        // Validate start < end
         if (start >= end) {
             throw new IllegalArgumentException("Start time must be before end time.");
         }
-    
-        // Check for existing bookings on the same resource
+
         for (Booking existing : bookingService.getBookings()) {
             if (existing.getResourceId().equals(resourceId)) {
-                // If existing booking overlaps
                 if (start < existing.getEndTime() && end > existing.getStartTime()) {
                     throw new IllegalArgumentException("This resource is already booked during the selected time.");
                 }
             }
         }
-    
-        // Calculate the duration in hours
-        double hours = (end - start) / (1000.0 * 60 * 60); // Convert milliseconds to hours
+
+        double hours = (end - start) / (1000.0 * 60 * 60); // milliseconds to hours
         double cost = calculator.calculateCost(hours, costPerHour);
-        String bookingId = String.format("B%03d", bookingCounter++); // Auto-generated ID like B001, B002, etc.
-    
-        Booking b = new Booking(bookingId, userId, resourceId, (int) start, (int) end, cost);
+        String bookingId = String.format("B%03d", bookingCounter++);
+
+        // ✅ Corrected to pass long values (no casting to int)
+        Booking b = new Booking(bookingId, userId, resourceId, start, end, cost);
         bookingService.addBooking(b);
+
         System.out.println("Booking Confirmed with ID: " + bookingId + " and cost: " + cost);
     }
 
@@ -50,20 +52,26 @@ public class BookingController {
         for (Booking b : bookingService.getBookings()) {
             if (b.getUserId().equals(userId)) {
                 found = true;
+                LocalDateTime startTime = Instant.ofEpochMilli(b.getStartTime()).atZone(ZoneId.systemDefault()).toLocalDateTime();
+                LocalDateTime endTime = Instant.ofEpochMilli(b.getEndTime()).atZone(ZoneId.systemDefault()).toLocalDateTime();
+
                 System.out.println("Booking ID: " + b.getBookingId() + ", Resource ID: " + b.getResourceId() +
-                        ", Start: " + b.getStartTime() + ", End: " + b.getEndTime() + ", Cost: " + b.getCost());
+                        ", Start: " + startTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")) +
+                        ", End: " + endTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")) +
+                        ", Cost: " + b.getCost());
             }
         }
+
         if (!found) {
             System.out.println("You have no bookings.");
         }
     }
+
     public boolean deleteBooking(String bookingId) {
         return bookingService.deleteBooking(bookingId);
     }
-    
-    public boolean updateBooking(String bookingId, int start, int end) {
+
+    public boolean updateBooking(String bookingId, long start, long end) {
         return bookingService.updateBooking(bookingId, start, end);
     }
-    
 }

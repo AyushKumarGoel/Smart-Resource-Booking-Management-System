@@ -14,7 +14,7 @@ public class BookingService {
         return bookingRepo.deleteBooking(bookingId);
     }
     
-    public boolean updateBooking(String bookingId, int start, int end) {
+    public boolean updateBooking(String bookingId, long start, long end) {
         return bookingRepo.updateBooking(bookingId, start, end);
     }
     

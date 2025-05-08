@@ -16,10 +16,10 @@ public class BookingRepository {
 
             // Same resource -> check time conflict
             if (existing.getResourceId().equals(newBooking.getResourceId())) {
-                int newStart = newBooking.getStartTime();
-                int newEnd = newBooking.getEndTime();
-                int existingStart = existing.getStartTime();
-                int existingEnd = existing.getEndTime();
+                long newStart = newBooking.getStartTime();
+                long newEnd = newBooking.getEndTime();
+                long existingStart = existing.getStartTime();
+                long existingEnd = existing.getEndTime();
 
                 boolean isOverlapping = newStart < existingEnd && newEnd > existingStart;
                 if (isOverlapping) {
@@ -34,16 +34,20 @@ public class BookingRepository {
         return bookings.removeIf(b -> b.getBookingId().equals(bookingId));
     }
     
-    public boolean updateBooking(String bookingId, int newStart, int newEnd) {
+    public boolean updateBooking(String bookingId, long newStartMs, long newEndMs) {
         for (Booking b : bookings) {
             if (b.getBookingId().equals(bookingId)) {
-                b.setStartTime(newStart);
-                b.setEndTime(newEnd);
+                b.setStartTime(newStartMs);
+                b.setEndTime(newEndMs);
+                double hours = (newEndMs - newStartMs) / (1000.0 * 60 * 60); // convert ms to hours
+                double costPerHour = b.getCost() / ((b.getEndTime() - b.getStartTime()) / (1000.0 * 60 * 60));
+                b.setCost(hours * costPerHour);
                 return true;
             }
         }
         return false;
     }
+    
     
 
     public List<Booking> getAllBookings() {
